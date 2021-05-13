@@ -1,11 +1,13 @@
 //vars
-let curX = 0, curY = 0, lastX = -2, lastY = -2, xSize = 825, ySize = 825, xPts = [], yPts = [], selected = false, curPlayer, again = false;
+let curX = 0, curY = 0, lastX = -2, lastY = -2, xSize = 825, ySize = 825, xPts = [], yPts = [], selected = false, curPlayer, again = false, winAnimation = false, winText, wX = 56, wY = 56, winColor;
 let player1 = {
+  player: 1,
   score: 0,
   turn: true,
   color: 'rgba(255,0,0,255)'
 },
 player2 = {
+  player: 2,
   score: 0,
   turn: false,
   color: 'rgba(0, 0, 255, 255)'
@@ -17,8 +19,10 @@ function setup() {
   background(169,169,169);
   fill('black');
   stroke('black');
+  winAnimation = false;
   //display text
   textFont('Helvetica');
+  textSize(12);
   text("press r to reset at any point", 25, 25);
   text("score", 450, 25);
   text("turn:", 290, 25);
@@ -31,7 +35,29 @@ function setup() {
 }
 
 function draw() {
-  //unused: all updates will be based on Users' input
+  if(winAnimation){
+      clear();
+      background(169,169,169);
+      textSize(12);
+      fill('black');
+      stroke('black');
+      text("press r to reset at any point", 25, 25);
+      textSize(56);
+      stroke(winColor);
+      fill(winColor);
+      text(winText, wX, wY);
+      wX++;
+      if(wX % 20 === 0){
+          wY++;
+      }
+      if(wX === xSize - 150){
+          wX = 56;
+      }
+      if(wY === ySize - 150){
+          wY = 56;
+      }
+      
+  }
 }
 
 
@@ -203,8 +229,14 @@ function checkForScore(x1, y1, x2, y2){
 }
 function scored(){
   curPlayer.score++;
-  again = true;
-  drawScore();
+  if(curPlayer.score === 41){
+      winAnimation = true;
+      winText = "Player " + curPlayer.player + " wins!!";
+      winColor = curPlayer.color;
+  } else {
+    again = true;
+    drawScore();
+  }
 }
 function resetGame(e){
   console.log(e);
