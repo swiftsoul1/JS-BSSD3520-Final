@@ -48,7 +48,7 @@ function draw() {
       text(winText, wX, wY);
       wX++;
       if(wX % 20 === 0){
-          wY++;
+          wY += 3;
       }
       if(wX === xSize - 150){
           wX = 56;
