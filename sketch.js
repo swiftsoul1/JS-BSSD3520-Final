@@ -48,7 +48,7 @@ function draw() {
       text(winText, wX, wY);
       wX++;
       if(wX % 20 === 0){
-          wY += 3;
+          wY += 2;
       }
       if(wX === xSize - 150){
           wX = 56;
@@ -270,35 +270,37 @@ function mouseClicked() {
   //closest in array refernce
   //https://www.gavsblog.com/blog/find-closest-number-in-array-javascript
   //match mouse click with closest point to the mouse cursor, and select it
-  let closestX = xPts.reduce((a, b) => {
-      return abs(b - mouseX) < abs(a - mouseX) ? b : a;
-  });
-  let closestY = yPts.reduce((a, b) => {
-      return abs(b - mouseY) < abs(a - mouseY) ? b : a;
-  });
-  //check whats werre gunna do with the point
-  if(selected === false || (closestX === lastX && closestY === lastY)){ 
-     selected = true;
-     drawSelected(closestX, closestY);
-  } else if(player1.turn === true){
-    drawLine(closestX, closestY, player1.color);
-    if(again === false){
-      player1.turn = false;
-      player2.turn = true;
-      curPlayer = player2;
-      currentTurn();
-    }else{
-       again = false;
-    }
-  } else if (player2.turn === true){
-    drawLine(closestX, closestY, player2.color);
-    if(again === false){  
-      player1.turn = true;
-      player2.turn = false;
-      curPlayer = player1;
-      currentTurn();
-    } else {
-      again = false;
+  if(!winAnimation){
+    let closestX = xPts.reduce((a, b) => {
+        return abs(b - mouseX) < abs(a - mouseX) ? b : a;
+    });
+    let closestY = yPts.reduce((a, b) => {
+        return abs(b - mouseY) < abs(a - mouseY) ? b : a;
+    });
+    //check whats werre gunna do with the point
+    if(selected === false || (closestX === lastX && closestY === lastY)){ 
+         selected = true;
+        drawSelected(closestX, closestY);
+    } else if(player1.turn === true){
+        drawLine(closestX, closestY, player1.color);
+        if(again === false){
+        player1.turn = false;
+        player2.turn = true;
+        curPlayer = player2;
+        currentTurn();
+        }else{
+            again = false;
+        }
+    } else if (player2.turn === true){
+        drawLine(closestX, closestY, player2.color);
+        if(again === false){  
+            player1.turn = true;
+            player2.turn = false;
+            curPlayer = player1;
+            currentTurn();
+        } else {
+            again = false;
+        }
     }
   }
 }
